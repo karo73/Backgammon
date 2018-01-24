@@ -1,0 +1,151 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #1E1008;
+	margin: 0;
+}
+
+.clear-fix:after {
+	content: '';
+	clear: both;
+	display: block;
+}
+
+.fl { float: left;  }
+.fr { float: right; }
+
+.wrapper {
+	background-image: url('../img/backgammon.jpg');
+	background-repeat: no-repeat;
+	box-shadow: 0 0 30px rgba(255,255,255,.30);
+	height: 628px;
+	margin: 100px auto 0;
+	position: relative;
+	width: 800px;
+}
+
+.dice-box {
+	bottom: 0;
+	height: 50px;
+	left: 164px;
+	margin: auto 0;
+	position: absolute;
+	top: 0;
+	width: 120px;
+}
+
+.dice-box--reverse #dice-1 {
+	float: right;
+}
+
+.dice-box--reverse #dice-2 {
+	float: left;
+}
+
+.dice-box.on-right {
+	left: auto;
+	right: 157px;
+}
+
+.dice {
+	background-image: url('../img/DiceSprite.png');
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 50px;
+	margin: 0 5px;
+	width: 50px;
+}
+
+.reverse-btn {
+	background: #FFFFFF url('../img/reverse-icon.png') no-repeat center center;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	display: block;
+	height: 30px;
+	left: 0;
+	margin: 0 auto;
+	outline: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: -40px;
+	width: 30px;
+}
+
+#reset-step {
+    bottom: 0;
+	cursor: pointer;
+    height: 22px;
+    left: 5px;
+    margin: auto 0;
+    position: absolute;
+	padding: 0 5px;
+    top: 0;
+	width: 80px;
+}
+
+.sidebars {
+	height: 255px;
+	left: 90px;
+    margin: 0 auto;
+	position: absolute;
+    right: 83px;
+}
+
+.sidebars.bottom {
+	bottom: 22px;
+}
+
+.sidebars.top {
+	top: 22px;
+}
+
+.sidebar-inner-box {
+	height: 100%;
+	position: relative;
+}
+
+.pucks-box {
+	align-items: flex-end;
+	display: flex;
+	flex-direction: column-reverse;
+	height: 100%;
+    min-height: 35px;
+	position: relative;
+	text-align: center;
+	width: 44.5px;
+}
+
+.sidebars.top .pucks-box {
+	flex-direction: column;
+}
+
+.puck {
+	background: url('../img/pucks.png') no-repeat left top;
+	border: none;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	margin: 0 auto;
+	outline: 0;
+	padding: 0;
+	width: 35px;
+}
+
+.puck-black {
+	background-position: -35px top;
+}
+
+.reverse-btn:active,
+.puck:active {
+	opacity: .7;
+}
+
+
+
+
+
