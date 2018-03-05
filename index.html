@@ -8,9 +8,12 @@
 <body>
 	
 	<div class="wrapper">
+		<h1 id="turn-title"></h1>
 		<button id="reset-step" type="button">Reset step</button>
 		
 		<div class="sidebars top clear-fix">
+		
+			<div id="hited-black-items" class="items-on-hit"></div>
 			
 			<div class="sidebar-inner-box fl">
 				<div id="step-1" class="pucks-box fl"></div>
@@ -33,6 +36,8 @@
 		</div>
 		
 		<div class="sidebars bottom clear-fix">
+		
+			<div id="hited-white-items" class="items-on-hit"></div>
 			
 			<div class="sidebar-inner-box fl">
 				<div id="step-24" class="pucks-box fl"></div>
@@ -54,7 +59,7 @@
 			
 		</div>
 		
-		<div class="dice-box">
+		<div class="dice-box on-right">
 			<button class="reverse-btn" type="button"></button>
 			<div class="dice" id="dice-1"></div><div class="dice" id="dice-2"></div>
 		</div>

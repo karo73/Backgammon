@@ -32,7 +32,15 @@ Backgammon.prototype.getElementById = function( id ){
 	return document.getElementById( id );
 }
 
+Backgammon.prototype.setTurnTitle = function(){
+	
+	this.getElementById( 'turn-title' ).innerHTML = '<button class="puck puck-' + this.turn + '" type="button"></button> turn';
+	
+};
+
 Backgammon.prototype.initDice = function(){
+	
+	this.setTurnTitle();
 	
 	var dice1 = this.getElementById( 'dice-1' ),
 		dice2 = this.getElementById( 'dice-2' );
@@ -85,7 +93,7 @@ Backgammon.prototype.setTransparencyForCurrentDice = function(){
 	
 };
 
-Backgammon.prototype.getGoToElem = function( elemType, id ){
+Backgammon.prototype.getGoAppendedElem = function( elemType, id ){
 	
 	if ( elemType === this.white ) {
 		
@@ -101,12 +109,42 @@ Backgammon.prototype.getGoToElem = function( elemType, id ){
 	
 };
 
-Backgammon.prototype.puckGo = function( elemType, clickedButton ){
+Backgammon.prototype.addIntoHitBoxPuck = function( elem, type ){
 	
-	var id = Number( clickedButton.parentNode.id.replace('step-', '') ),
-		elem = this.getGoToElem( elemType, id );
+	var self = this,
+		checkForHit = elem.getElementsByClassName('puck')[0];
 	
-	this.setResetSteps( id, elemType );
+	if ( checkForHit !== undefined && checkForHit.getAttribute('data-type') === type ) {
+		
+		var hitedBox = this.getElementById( 'hited-' + type + '-items' ),
+			hitedPucks = hitedBox.getElementsByClassName('puck');
+		
+		checkForHit.parentNode.removeChild( checkForHit );
+		hitedBox.innerHTML += this.getPuck( type );
+		
+		for ( var i = 0, l = hitedPucks.length; i < l; i++ ) {
+			
+			hitedPucks[i].onclick = function(){
+				self.afterClick( this, self, true );
+			};
+			
+		}
+		
+	}
+	
+};
+
+Backgammon.prototype.puckGo = function( elemType, elemId ){
+	
+	var elem = this.getGoAppendedElem( elemType, elemId );
+	
+	if ( elem === null ) {
+		return;
+	}
+	
+	this.addIntoHitBoxPuck( elem, ( elemType === this.white ? this.black : this.white ) );
+	
+	this.setResetSteps( elemId, elemType );
 	this.setTransparencyForCurrentDice();
 	elem.innerHTML += this.getPuck( elemType );
 	this.clickEvents( elem );
@@ -124,7 +162,7 @@ Backgammon.prototype.setResetSteps = function( id, elemType ){
 	
 };
 
-Backgammon.prototype.afterClick = function( $this, self ){
+Backgammon.prototype.afterClick = function( $this, self, isHitedItem ){
 	
 	var elemType = $this.getAttribute('data-type'),
 		stepCount = 2,
@@ -138,15 +176,41 @@ Backgammon.prototype.afterClick = function( $this, self ){
 		
 		self.playerTurnCount++;
 		
-		var elem = self.getGoToElem( elemType, Number( $this.parentNode.id.replace('step-', '') ) ),
-			pucks = elem.getElementsByClassName('puck');
+		var elemId = ( isHitedItem ) ? ( elemType === this.white ? 0 : 25 ) : Number( $this.parentNode.id.replace('step-', '') ),
+			elem   = self.getGoAppendedElem( elemType, elemId );
 		
-		if ( !elem || ( pucks.length > 1 && pucks[0].getAttribute('data-type') !== elemType ) ) {
+		var hitedItems = self.getElementById( 'hited-' + elemType + '-items' ).getElementsByClassName('puck');
+		
+		if ( hitedItems.length && !isHitedItem ) {
+			alert( 'Hey you have hited item. First play it.' );
 			self.playerTurnCount--;
 			return;
 		}
 		
-		self.puckGo( elemType, $this );
+		if ( elem === null ) {
+			self.playerTurnCount--;
+			return;
+		}
+		
+		var pucks = elem.getElementsByClassName('puck');
+		
+		if ( !elem || ( pucks.length > 1 && pucks[0].getAttribute('data-type') !== elemType ) ) {
+			self.playerTurnCount--;
+			
+			if ( /red\-row/.test( elem.className ) ) {
+				return;
+			}
+			
+			elem.className += ' red-row';
+			
+			setTimeout(function(){
+				elem.className = elem.className.replace( /red\-row/, '' ).trim();
+			}, 1000);
+			
+			return;
+		}
+		
+		self.puckGo( elemType, elemId );
 		
 		$this.parentNode.removeChild( $this );
 		
@@ -154,10 +218,10 @@ Backgammon.prototype.afterClick = function( $this, self ){
 			
 			if ( elemType === self.black ) {
 				self.turn = self.white;
-				diceBox.className = 'dice-box';
+				diceBox.className = 'dice-box on-right';
 			} else {
 				self.turn = self.black;
-				diceBox.className = 'dice-box on-right';
+				diceBox.className = 'dice-box';
 			}
 			
 			self.playerTurnCount = 0;
@@ -196,7 +260,7 @@ Backgammon.prototype.toggleDiceReverse = function(){
 			
 		}
 		
-		if ( self.turn === 'black' ) {
+		if ( self.turn === 'white' ) {
 			diceBox.className += ' on-right';
 		}
 		

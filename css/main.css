@@ -27,6 +27,23 @@ body {
 	width: 800px;
 }
 
+#turn-title {
+	color: #FFFFFF;
+	font-family: Helvetica, Arial, Sans-serif;
+	height: 100px;
+	left: 0;
+	line-height: 100px;
+	position: absolute;
+	top: -100px;
+}
+
+#turn-title .puck {
+	cursor: default;
+	display: inline-block;
+	opacity: 1;
+	vertical-align: middle;
+}
+
 .dice-box {
 	bottom: 0;
 	height: 50px;
@@ -127,7 +144,7 @@ body {
 .puck {
 	background: url('../img/pucks.png') no-repeat left top;
 	border: none;
-	cursor: pointer;
+	cursor: url('../img/grab.png'), auto;
 	display: block;
 	height: 35px;
 	margin: 0 auto;
@@ -145,7 +162,42 @@ body {
 	opacity: .7;
 }
 
+.puck:active {
+	cursor: url('../img/grab-out.png'), auto;
+}
 
+.red-row {
+	background-color: red;
+	border-radius: 4px;
+	animation: animateBGColorToRed 1s ease 1;
+}
+
+@keyframes animateBGColorToRed {
+	
+	from {
+		background-color: red;
+	}
+	
+	to {
+		background-color: transparent;
+	}
+	
+}
+
+.items-on-hit {
+	bottom: 0;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	margin: 0 auto;
+	right: 0;
+	width: 44.5px;
+}
+
+#hited-black-items {
+	display: flex;
+	flex-direction: column-reverse;
+}
 
 
 
